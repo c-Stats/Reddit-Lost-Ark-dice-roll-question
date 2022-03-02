@@ -77,3 +77,13 @@ for(i in 1:10){
 
 #Compute the expected value
 print(position_vector %*% states[, 1])
+
+#Frame for probabilities
+position_frame <- cbind(states[terminal_states, 1], position_vector[terminal_states])
+position_frame <- position_frame
+colnames(position_frame) <- c("S", "P")
+
+#Distribution of S
+print(position_frame)
+#Check that probabilities add up to 1
+sum(position_frame[, 2])
