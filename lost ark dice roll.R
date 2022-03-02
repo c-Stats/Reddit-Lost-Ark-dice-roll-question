@@ -20,8 +20,8 @@ for(i in 0:10){
 }
 
 states[, 3] <- c(1:66)
-states[, 4] <- 0.75 * 1.1^states[, 2] * 0.9^states[, 1]
-states[, 4] <- sapply(states[, 4], function(x){min(0.75, x)})
+states[, 4] <- 0.75 + 0.1 * states[, 2] - 0.1 * states[, 1]
+states[, 4] <- sapply(states[, 4], function(x){max(0, min(0.75, x))})
 
 
 #Transition matrix
