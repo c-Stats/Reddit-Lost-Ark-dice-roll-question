@@ -21,7 +21,7 @@ for(i in 0:10){
 
 states[, 3] <- c(1:66)
 states[, 4] <- 0.75 + 0.1 * states[, 2] - 0.1 * states[, 1]
-states[, 4] <- sapply(states[, 4], function(x){max(0, min(0.75, x))})
+states[, 4] <- sapply(states[, 4], function(x){max(0.25, min(0.75, x))})
 
 
 #Transition matrix
@@ -89,7 +89,7 @@ sum(position_frame[, 2])
 
 #Compare with simulation
 #Function to compute p
-p <- function(S,F){max(0, min(0.75, 0.75 + (F-S)*0.1))}
+p <- function(S,F){max(0.25, min(0.75, 0.75 + (F-S)*0.1))}
 
 simulate_S <- function(){
 
@@ -117,6 +117,4 @@ print(n)
 #Takes a while
 simulation <- replicate(n, simulate_S())
 mean(simulation)
-
-#Result is confirmed
 
