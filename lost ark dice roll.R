@@ -83,7 +83,40 @@ position_frame <- cbind(states[terminal_states, 1], position_vector[terminal_sta
 position_frame <- position_frame
 colnames(position_frame) <- c("S", "P")
 
-#Distribution of S
 print(position_frame)
-#Check that probabilities add up to 1
 sum(position_frame[, 2])
+
+
+#Compare with simulation
+#Function to compute p
+p <- function(S,F){max(0, min(0.75, 0.75 + (F-S)*0.1))}
+
+simulate_S <- function(){
+
+	SF <- c(0,0)
+	for(i in 1:10){
+
+		#Bernoulli rv for a success
+		I <- rbinom(1, 1, p(SF[1], SF[2]))
+		SF <- SF + c(I, 1 - I)
+
+	}
+
+	return(SF[1])
+
+}
+
+#Compute suitable n for simulation
+var_S <- position_vector %*% states[, 1]^2 - (position_vector %*% states[, 1])^2
+#95% CI via CLT with +/- 0.01
+desired_precision <- 10^(-2)
+n <- (qnorm(0.975) * sqrt(var_S) / (desired_precision))^2
+print(n)
+
+
+#Takes a while
+simulation <- replicate(n, simulate_S())
+mean(simulation)
+
+#Result is confirmed
+
